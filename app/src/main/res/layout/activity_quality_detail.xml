@@ -67,15 +67,6 @@
             android:layout_toEndOf="@+id/textView5" />
 
         <TextView
-            android:text="地理位置："
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:id="@+id/textView18"
-            android:layout_below="@+id/textView17"
-            android:layout_alignParentStart="true" />
-
-        <TextView
             android:text="2017年5月8日16:19:25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,15 +90,6 @@
             android:layout_marginTop="15dp"
             android:id="@+id/textView3"
             android:layout_below="@+id/quality_detail_name"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:text="监督登记号："
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:id="@+id/textView5"
-            android:layout_below="@+id/quality_detail_loc"
             android:layout_alignParentStart="true" />
 
         <TextView
@@ -146,6 +128,23 @@
             android:layout_below="@+id/textView11"
             android:layout_alignParentStart="true" />
 
+
+        <TextView
+            android:text="地理位置："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textView18"
+            android:layout_below="@+id/textView17"
+            android:layout_alignParentStart="true" />
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/textView18"
+            android:clickable="true" />
+
         <TextView
             android:text="抽检时间："
             android:layout_width="wrap_content"
@@ -153,6 +152,15 @@
             android:layout_marginTop="11dp"
             android:id="@+id/textView17"
             android:layout_below="@+id/quality_detail_demand"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="监督登记号："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textView5"
+            android:layout_below="@+id/quality_detail_loc"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
 
