@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#979797</color>
-    <color name="colorAccent">#368AFD</color>
+    <color name="colorAccent">#009fff</color>
+    <color name="btn_bg_color">#39aef5</color>
     <color name="action_bottom_line">#dcdede</color>
     <color name="tab_text_color">#969696</color>
     <color name="login_line_color">#cccccc</color>

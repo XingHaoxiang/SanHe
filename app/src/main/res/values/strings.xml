@@ -25,4 +25,5 @@
     <string name="login_btn_content">登 录</string>
     <string name="login_username_pwd_error">用户名或者密码错！</string>
     <string name="login_username_pwd_null">用户名或者密码不能为空！</string>
+    <string name="site_quality_save">保存并提交</string>
 </resources>
