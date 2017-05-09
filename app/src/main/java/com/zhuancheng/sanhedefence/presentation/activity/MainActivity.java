@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,9 +20,9 @@ import com.zhuancheng.sanhedefence.presentation.fragment.SpotCheckRecordFragment
  * Created by cong on 2017/5/4.
  */
 
-public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
+public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener, DrawerLayout.DrawerListener {
     private TabLayout mTabLayout;
-
+    private DrawerLayout activity_drawer;
     private FragmentManager fm;
     private QualityFragment mQualityFragment; // 质监任务
     private SiteQualityFragment mSiteQualityFragment; // 现场质监
@@ -35,6 +36,8 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         super.onCreate(savedInstanceState);
         setActionTitle(R.string.main_activity_title);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        activity_drawer = (DrawerLayout) findViewById(R.id.activity_drawer);
+        activity_drawer.addDrawerListener(this);
         setLeftImage(R.drawable.nav_icon_list);
         leftImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +63,8 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         mTabLayout.addTab(mTabLayout.newTab().setText("抽查记录").setIcon(R.drawable.tb_icon_spot_record));
         mTabLayout.addTab(mTabLayout.newTab().setText("工程资料").setIcon(R.drawable.tb_icon_engineering_data));
     }
+
+
 
     private void selectTab(TabLayout.Tab tab, int position) {
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -162,4 +167,27 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         Log.d(TAG, "onTabReselected: " + tab.getPosition());
     }
 
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        View content = activity_drawer.getChildAt(0);
+        View menu = drawerView;
+        float scale = 1 - slideOffset; // [1,0]
+//        float contentScale = (float) (0.7f + 0.3 * scale);
+        content.setTranslationX(menu.getMeasuredWidth() * (1 - scale));
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
+    }
 }
