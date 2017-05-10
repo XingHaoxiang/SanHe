@@ -11,4 +11,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyMenuTextStyle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/engineering_bg</item>
+    </style>
 </resources>

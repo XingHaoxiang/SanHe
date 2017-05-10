@@ -51,11 +51,8 @@
         android:layout_gravity="start"
         android:orientation="vertical"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="出来了"
-            />
+        <include layout="@layout/main_activity_sliding_head" />
 
+        <include layout="@layout/main_activity_slide_item" />
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

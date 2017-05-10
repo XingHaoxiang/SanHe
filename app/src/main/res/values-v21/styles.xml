@@ -13,4 +13,8 @@
         <!--设置下方虚拟导航栏 5.x新特性-->
         <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
     </style>
+
+    <style name="MyMenuTextStyle">
+        <item name="android:textSize">22sp</item>
+    </style>
 </resources>

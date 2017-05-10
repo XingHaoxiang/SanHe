@@ -1,14 +1,17 @@
 package com.zhuancheng.sanhedefence.presentation.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.zhuancheng.sanhedefence.R;
 import com.zhuancheng.sanhedefence.domain.model.Site_QualityBean;
+import com.zhuancheng.sanhedefence.presentation.activity.SiteQualityActivity;
 import com.zhuancheng.sanhedefence.presentation.adapter.SiteQualityAdapter;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import java.util.List;
  * @author cong
  * 现场质监
  */
-public class SiteQualityFragment extends BaseFragment {
+public class SiteQualityFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
     private String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494237780627&di=4cf6f4d8c3e8bed316e03f1b075cbb06&imgtype=0&src=http%3A%2F%2Fmvimg1.meitudata.com%2F56ce92d0b55ab9977.jpg";
     private String url2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494832540&di=5cb730a253ce83f30d11bcc42e7da491&imgtype=jpg&er=1&src=http%3A%2F%2Fmvimg1.meitudata.com%2F56dd26bf0cd151715.jpg";
@@ -36,6 +39,7 @@ public class SiteQualityFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mContent = inflater.inflate(R.layout.fragment_site_quality, container, false);
+        mContext = getActivity();
         initView();
         initData();
         return mContent;
@@ -57,8 +61,13 @@ public class SiteQualityFragment extends BaseFragment {
         site_qualityBeen.add(site_qualityBean4);
         siteQualityAdapter = new SiteQualityAdapter(site_qualityBeen);
         mSiteLv.setAdapter(siteQualityAdapter);
+        mSiteLv.setOnItemClickListener(this);
     }
 
 
-
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(mContext, SiteQualityActivity.class);
+        mContext.startActivity(intent);
+    }
 }
