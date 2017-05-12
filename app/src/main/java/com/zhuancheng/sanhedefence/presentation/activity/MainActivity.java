@@ -171,9 +171,12 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     public void onDrawerSlide(View drawerView, float slideOffset) {
         View content = activity_drawer.getChildAt(0);
         View menu = drawerView;
-        float scale = 1 - slideOffset; // [1,0]
+        float scale =  slideOffset; // [1,0]
 //        float contentScale = (float) (0.7f + 0.3 * scale);
-        content.setTranslationX(menu.getMeasuredWidth() * (1 - scale));
+        Log.d(TAG, "onDrawerSlide: " + scale);
+        float menuscale = menu.getMeasuredWidth() * ( scale);
+        Log.d(TAG, "menuscale: " + menuscale);
+        content.setTranslationX(menuscale);
     }
 
     @Override

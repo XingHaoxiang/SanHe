@@ -50,6 +50,7 @@
         android:background="@drawable/side_pull_bg"
         android:layout_gravity="start"
         android:orientation="vertical"
+        android:fitsSystemWindows="true"
         >
         <include layout="@layout/main_activity_sliding_head" />
 

@@ -1,11 +1,11 @@
 package com.zhuancheng.sanhedefence.presentation.adapter;
 
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zhuancheng.sanhedefence.R;
@@ -18,11 +18,18 @@ import java.util.List;
 
 public class GridViewAdapter extends BaseAdapter {
     private static final String TAG = "GridViewAdapter";
+    private List<String> imgNameList;
     List<String> list;
     private ImageView mImageView;
     public GridViewAdapter(List<String> list) {
         this.list = list;
     }
+
+    public GridViewAdapter(List<String> imgList, List<String> imgNameList) {
+        this.list = imgList;
+        this.imgNameList = imgNameList;
+    }
+
     @Override
     public int getCount() {
         return list.size() + 1;
@@ -40,12 +47,23 @@ public class GridViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item, null);
+        ViewHolder viewHolder = null;
+        if (viewHolder == null) {
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item, null);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
         mImageView = (ImageView) convertView.findViewById(R.id.item);
         if (position < list.size()) {
-            Glide.with(parent.getContext()).load(list.get(position)).centerCrop().into(mImageView);
+            Glide.with(parent.getContext()).load(list.get(position)).centerCrop().into(viewHolder.iv);
+            viewHolder.tv.setText(imgNameList.get(position));
         } else {
-            mImageView.setImageBitmap(BitmapFactory.decodeResource(parent.getContext().getResources(),R.drawable.main_icon_add_picture));
+//            mImageView.setImageBitmap(BitmapFactory.decodeResource(parent.getContext().getResources(),R.drawable.main_icon_add_picture));
+            //尝试用Glide修改
+            Glide.with(parent.getContext()).load(R.drawable.main_icon_add_picture).into(viewHolder.iv);
+            viewHolder.tv.setVisibility(View.INVISIBLE);
         }
         return convertView;
     }
@@ -55,5 +73,18 @@ public class GridViewAdapter extends BaseAdapter {
         super.notifyDataSetChanged();
     }
 
+    public void notifyDataSetChanged(List<String> arrayList, List<String> imgNameList) {
+        this.list = arrayList;
+        this.imgNameList = imgNameList;
+        super.notifyDataSetChanged();
+    }
 
+    class ViewHolder {
+        private ImageView iv;
+        private TextView tv;
+        public ViewHolder(View v) {
+            iv = (ImageView) v.findViewById(R.id.item);
+            tv = (TextView) v.findViewById(R.id.item_tv);
+        }
+    }
 }
