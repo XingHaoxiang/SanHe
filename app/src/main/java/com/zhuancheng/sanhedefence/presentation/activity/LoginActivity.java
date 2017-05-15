@@ -15,7 +15,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.zhuancheng.sanhedefence.R;
+import com.zhuancheng.sanhedefence.domain.constants.Const;
+import com.zhuancheng.sanhedefence.domain.http.api.LoginApiClient;
+import com.zhuancheng.sanhedefence.domain.http.response.LoginResponse;
+import com.zhuancheng.sanhedefence.utils.ShareData;
 import com.zhuancheng.sanhedefence.utils.ToastUtil;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
@@ -62,8 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     ToastUtil.showToast(R.string.login_username_pwd_null);
                     return;
                 }
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                login(username, password);
                 break;
             case R.id.login_show_pwd:
                 if (isShowPwd) {
@@ -76,5 +83,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 isShowPwd = !isShowPwd;
                 break;
         }
+    }
+
+    public void login(String name, String pwd) {
+        final LoginApiClient loginApiClient = new LoginApiClient();
+        Call<LoginResponse> loginResponseCall =  loginApiClient.doLogin(name, pwd);
+        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if (response.isSuccessful() && loginResponse.getCode() == 0) {
+                    ToastUtil.showToast(loginResponse.getMessage());
+                    ShareData.setShareIntData(Const.userId,loginResponse.getResult().getUserId());
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    ToastUtil.showToast("登录失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                ToastUtil.showToast("登录失败，请重新登录");
+            }
+        });
     }
 }

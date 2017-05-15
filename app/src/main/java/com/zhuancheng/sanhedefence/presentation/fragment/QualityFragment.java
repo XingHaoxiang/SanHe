@@ -9,19 +9,28 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.zhuancheng.sanhedefence.R;
+import com.zhuancheng.sanhedefence.domain.constants.Const;
+import com.zhuancheng.sanhedefence.domain.http.api.QualityTaskClient;
+import com.zhuancheng.sanhedefence.domain.http.response.QualityTaskResponse;
 import com.zhuancheng.sanhedefence.domain.model.QualityBean;
 import com.zhuancheng.sanhedefence.presentation.activity.QualityDetail;
 import com.zhuancheng.sanhedefence.presentation.adapter.QualityAdapter;
+import com.zhuancheng.sanhedefence.utils.ShareData;
+import com.zhuancheng.sanhedefence.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by cong on 2017/5/4.
  * 质监任务
  */
 public class QualityFragment extends BaseFragment implements AdapterView.OnItemClickListener{
-
+    private static final String TAG = "QualityFragment";
     private View mContentView;
     private ListView mQuality_ListView;
     private QualityAdapter mAdapter;
@@ -40,7 +49,7 @@ public class QualityFragment extends BaseFragment implements AdapterView.OnItemC
         mContentView = inflater.inflate(R.layout.fragment_quality, container, false);
         mContext = getActivity();
         initView();
-        initData();
+        initData(ShareData.getShareIntData(Const.userId));
         return mContentView;
     }
 
@@ -49,27 +58,39 @@ public class QualityFragment extends BaseFragment implements AdapterView.OnItemC
         mQuality_ListView.setOnItemClickListener(this);
     }
 
-    private void initData() {
+    private void initData(int userId) {
         mQualityBeanList = new ArrayList<>();
-        QualityBean qualityBean = new QualityBean("主体结构验收","君晓家园小区人防工程项目","和平西路与鼎盛西大街交叉口南行300米路东","2017年5月6日18:38:52");
-        QualityBean qualityBean1 = new QualityBean("主体结构验收","君晓家园小区人防工程项目","和平西路与鼎盛西大街交叉口南行300米路东","2017年5月6日18:38:52");
-        QualityBean qualityBean2 = new QualityBean("主体结构验收","君晓家园小区人防工程项目","和平西路与鼎盛西大街交叉口南行300米路东","2017年5月6日18:38:52");
-        QualityBean qualityBean3 = new QualityBean("主体结构验收","君晓家园小区人防工程项目","和平西路与鼎盛西大街交叉口南行300米路东","2017年5月6日18:38:52");
-        QualityBean qualityBean12 = new QualityBean("主体结构验收","君晓家园小区人防工程项目","和平西路与鼎盛西大街交叉口南行300米路东","2017年5月6日18:38:52");
-        QualityBean qualityBean13 = new QualityBean("主体结构验收","君晓家园小区人防工程项目","和平西路与鼎盛西大街交叉口南行300米路东","2017年5月6日18:38:52");
-        mQualityBeanList.add(qualityBean);
-        mQualityBeanList.add(qualityBean1);
-        mQualityBeanList.add(qualityBean2);
-        mQualityBeanList.add(qualityBean3);
-        mQualityBeanList.add(qualityBean12);
-        mQualityBeanList.add(qualityBean13);
-        mAdapter = new QualityAdapter(mQualityBeanList);
-        mQuality_ListView.setAdapter(mAdapter);
+        final QualityTaskClient qualityTaskClient = new QualityTaskClient();
+
+        Call<QualityTaskResponse> qualityTaskResponseCall = qualityTaskClient.getTaskList(userId+"");
+        qualityTaskResponseCall.enqueue(new Callback<QualityTaskResponse>() {
+            @Override
+            public void onResponse(Call<QualityTaskResponse> call, Response<QualityTaskResponse> response) {
+                QualityTaskResponse qualityTaskResponse = new QualityTaskResponse();
+                if (response.isSuccessful()) {
+                    QualityBean qualityBean = new QualityBean(qualityTaskResponse.getId(),qualityTaskResponse.getTaskName(),
+                            qualityTaskResponse.getEngName(),qualityTaskResponse.getEngAddress(),
+                            qualityTaskResponse.getTaskDate());
+                    mQualityBeanList.add(qualityBean);
+                    mQuality_ListView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QualityTaskResponse> call, Throwable t) {
+                t.printStackTrace();
+                ToastUtil.showToast("加载失败");
+            }
+        });
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        QualityBean qualityBean = mQualityBeanList.get(position);
         Intent intent = new Intent(mContext, QualityDetail.class);
+        intent.putExtra("taskId", qualityBean.getId());
         startActivity(intent);
     }
+
 }

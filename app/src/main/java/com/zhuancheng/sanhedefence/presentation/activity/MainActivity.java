@@ -5,10 +5,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.zhuancheng.sanhedefence.R;
 import com.zhuancheng.sanhedefence.presentation.fragment.EngineeringDataFragment;
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         leftImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "hahah", Toast.LENGTH_SHORT).show();
+                activity_drawer.openDrawer(GravityCompat.START);
             }
         });
         setTab();

@@ -5,12 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zhuancheng.sanhedefence.R;
 
 import java.util.List;
+
+
 
 /**
  * Created by cong on 2017/5/8.
@@ -58,7 +59,6 @@ public class GridViewAdapter extends BaseAdapter {
         mImageView = (ImageView) convertView.findViewById(R.id.item);
         if (position < list.size()) {
             Glide.with(parent.getContext()).load(list.get(position)).centerCrop().into(viewHolder.iv);
-            viewHolder.tv.setText(imgNameList.get(position));
         } else {
 //            mImageView.setImageBitmap(BitmapFactory.decodeResource(parent.getContext().getResources(),R.drawable.main_icon_add_picture));
             //尝试用Glide修改
@@ -81,10 +81,10 @@ public class GridViewAdapter extends BaseAdapter {
 
     class ViewHolder {
         private ImageView iv;
-        private TextView tv;
+        private ImageView tv;
         public ViewHolder(View v) {
             iv = (ImageView) v.findViewById(R.id.item);
-            tv = (TextView) v.findViewById(R.id.item_tv);
+            tv = (ImageView) v.findViewById(R.id.item_tv);
         }
     }
 }

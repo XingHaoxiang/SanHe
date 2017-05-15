@@ -5,6 +5,7 @@ package com.zhuancheng.sanhedefence.domain.model;
  * 质监任务实体类
  */
 public class QualityBean {
+    private int id;
     private String qualityContent;
     private String projectName;
     private String projectAddress;
@@ -13,11 +14,20 @@ public class QualityBean {
     public QualityBean() {
     }
 
-    public QualityBean(String qualityContent, String projectName, String projectAddress, String time) {
+    public QualityBean(int id,String qualityContent, String projectName, String projectAddress, String time) {
+        this.id = id;
         this.qualityContent = qualityContent;
         this.projectName = projectName;
         this.projectAddress = projectAddress;
         this.time = time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getQualityContent() {

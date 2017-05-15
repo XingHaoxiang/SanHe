@@ -1,14 +1,17 @@
 package com.zhuancheng.sanhedefence.presentation.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.zhuancheng.sanhedefence.R;
 import com.zhuancheng.sanhedefence.domain.model.EngineerBean;
+import com.zhuancheng.sanhedefence.presentation.activity.QualityDetail;
 import com.zhuancheng.sanhedefence.presentation.adapter.EngineerAdapter;
 
 import java.util.ArrayList;
@@ -66,6 +69,13 @@ public class EngineeringDataFragment extends BaseFragment {
 
     private void initView() {
         mList = (ListView) mContent.findViewById(R.id.engineer_lv);
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(mContext, QualityDetail.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
