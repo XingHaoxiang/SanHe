@@ -29,15 +29,19 @@ public class QualityDetail extends BaseActivity implements View.OnClickListener{
     private Button mButton;
     private TextView quality_detail_name,quality_detail_loc,quality_detail_contact,quality_detail_tel,
             quality_detail_demand,quality_detail_time;
+    private String taskId;
+    private QualityTaskDetailResponse detailResponse;
+    private QualityTaskDetailResponse taskDetailResponse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_quality_detail);
         super.onCreate(savedInstanceState);
         setActionTitle("质监任务详情");
-        String taskId = getIntent().getIntExtra("taskId", 0)+"";
+        taskId = getIntent().getIntExtra("taskId", 0)+"";
 //        baiduMapInit(0,0);
         initView();
-        getTaskDetails(3+"");
+        getTaskDetails(taskId);
 
     }
 
@@ -85,6 +89,7 @@ public class QualityDetail extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, SiteQualityActivity.class);
+        intent.putExtra("taskId", taskId);
         startActivity(intent);
     }
 
@@ -93,12 +98,12 @@ public class QualityDetail extends BaseActivity implements View.OnClickListener{
         qualityDetailClient.getQualityTaskDetail(taskID).enqueue(new Callback<QualityTaskDetailResponse>() {
             @Override
             public void onResponse(Call<QualityTaskDetailResponse> call, Response<QualityTaskDetailResponse> response) {
-                QualityTaskDetailResponse detailResponse = response.body();
-                quality_detail_name.setText(detailResponse.getTaskName());
-                quality_detail_loc.setText(detailResponse.getEngAddress());
-                quality_detail_contact.setText(detailResponse.getContactName());
+                taskDetailResponse = response.body();
+                quality_detail_name.setText(taskDetailResponse.getTaskName());
+                quality_detail_loc.setText(taskDetailResponse.getEngAddress());
+                quality_detail_contact.setText(taskDetailResponse.getContactName());
 //                quality_detail_tel.setText(detailResponse.getContactPhone());
-                baiduMapInit(detailResponse.getLat(), detailResponse.getLng());
+                baiduMapInit(taskDetailResponse.getLat(), taskDetailResponse.getLng());
 
             }
 

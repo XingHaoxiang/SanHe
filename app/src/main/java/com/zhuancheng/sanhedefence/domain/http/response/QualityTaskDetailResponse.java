@@ -99,12 +99,6 @@ public class QualityTaskDetailResponse {
     }
 
     public static class EprIdListBean {
-        /**
-         * id : 42
-         * parentId : 42
-         * parentName : 墙体
-         * partName : 墙体
-         */
 
         private int id;
         private int parentId;

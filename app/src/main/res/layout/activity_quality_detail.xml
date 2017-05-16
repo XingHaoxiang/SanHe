@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:padding="10dp"
         android:layout_below="@id/quality_detail_action_bar"
         >
 
@@ -43,6 +43,7 @@
             android:text="现场质检"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textColor="@color/engineering_bg"
@@ -141,7 +142,7 @@
         <com.baidu.mapapi.map.MapView
             android:id="@+id/bmapView"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="125dp"
             android:layout_below="@id/textView18"
             android:clickable="true" />
 

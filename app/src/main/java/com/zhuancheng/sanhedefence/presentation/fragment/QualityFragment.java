@@ -60,18 +60,24 @@ public class QualityFragment extends BaseFragment implements AdapterView.OnItemC
 
     private void initData(int userId) {
         mQualityBeanList = new ArrayList<>();
+
         final QualityTaskClient qualityTaskClient = new QualityTaskClient();
 
         Call<QualityTaskResponse> qualityTaskResponseCall = qualityTaskClient.getTaskList(userId+"");
         qualityTaskResponseCall.enqueue(new Callback<QualityTaskResponse>() {
             @Override
             public void onResponse(Call<QualityTaskResponse> call, Response<QualityTaskResponse> response) {
-                QualityTaskResponse qualityTaskResponse = new QualityTaskResponse();
+                QualityTaskResponse qualityTaskResponse = response.body();
                 if (response.isSuccessful()) {
-                    QualityBean qualityBean = new QualityBean(qualityTaskResponse.getId(),qualityTaskResponse.getTaskName(),
-                            qualityTaskResponse.getEngName(),qualityTaskResponse.getEngAddress(),
-                            qualityTaskResponse.getTaskDate());
-                    mQualityBeanList.add(qualityBean);
+                    List<QualityTaskResponse.ResultBean> qualityTaskResponses = qualityTaskResponse.getResult();
+                    for (QualityTaskResponse.ResultBean taskResponse : qualityTaskResponses) {
+                        QualityBean qualityBean = new QualityBean(taskResponse.getId(),
+                                taskResponse.getTaskName(),
+                                taskResponse.getEngName(),taskResponse.getEngAddress(),
+                                taskResponse.getTaskDate());
+                        mQualityBeanList.add(qualityBean);
+                    }
+                    mAdapter = new QualityAdapter(mQualityBeanList);
                     mQuality_ListView.setAdapter(mAdapter);
                 }
             }

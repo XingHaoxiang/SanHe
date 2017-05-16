@@ -52,7 +52,8 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity android:name=".presentation.activity.ShowActivity" />
         <activity android:name=".presentation.weiget.ImageActivity" />
-        <activity android:name=".presentation.activity.EditPhotoActivity"></activity>
+        <activity android:name=".presentation.activity.EditPhotoActivity"/>
+        <activity android:name=".presentation.activity.PhotoRequire"/>
     </application>
 
 </manifest>

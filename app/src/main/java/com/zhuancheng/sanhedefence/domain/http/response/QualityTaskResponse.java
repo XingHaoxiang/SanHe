@@ -1,54 +1,78 @@
 package com.zhuancheng.sanhedefence.domain.http.response;
 
+import java.util.List;
+
 /**
  * Created by cong on 2017/5/15.
  */
 
-public class QualityTaskResponse{
+public class QualityTaskResponse {
 
-    private int id;
-    private String taskName;
-    private String engName;
-    private String engAddress;
-    private String taskDate;
+    private String code;
+    private List<ResultBean> result;
 
-    public int getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public List<ResultBean> getResult() {
+        return result;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setResult(List<ResultBean> result) {
+        this.result = result;
     }
 
-    public String getEngName() {
-        return engName;
-    }
+    public static class ResultBean {
 
-    public void setEngName(String engName) {
-        this.engName = engName;
-    }
+        private int id;
+        private String taskName;
+        private String engName;
+        private String engAddress;
+        private String taskDate;
 
-    public String getEngAddress() {
-        return engAddress;
-    }
+        public int getId() {
+            return id;
+        }
 
-    public void setEngAddress(String engAddress) {
-        this.engAddress = engAddress;
-    }
+        public void setId(int id) {
+            this.id = id;
+        }
 
-    public String getTaskDate() {
-        return taskDate;
-    }
+        public String getTaskName() {
+            return taskName;
+        }
 
-    public void setTaskDate(String taskDate) {
-        this.taskDate = taskDate;
+        public void setTaskName(String taskName) {
+            this.taskName = taskName;
+        }
+
+        public String getEngName() {
+            return engName;
+        }
+
+        public void setEngName(String engName) {
+            this.engName = engName;
+        }
+
+        public String getEngAddress() {
+            return engAddress;
+        }
+
+        public void setEngAddress(String engAddress) {
+            this.engAddress = engAddress;
+        }
+
+        public String getTaskDate() {
+            return taskDate;
+        }
+
+        public void setTaskDate(String taskDate) {
+            this.taskDate = taskDate;
+        }
     }
 }

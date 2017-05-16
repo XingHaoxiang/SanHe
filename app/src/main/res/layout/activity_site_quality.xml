@@ -39,12 +39,15 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.48"
-                    android:background="@drawable/edittext_border" />
+                    android:background="@drawable/edittext_border"
+                    android:singleLine="true"
+                    android:id="@+id/pjo_name" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/main_icon_drop_down" />
+                    android:src="@drawable/main_icon_drop_down"
+                    android:id="@+id/pjo_list" />
             </LinearLayout>
 
             <LinearLayout
@@ -63,7 +66,9 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.7"
-                    android:background="@drawable/edittext_border" />
+                    android:background="@drawable/edittext_border"
+                    android:singleLine="true"
+                    android:id="@+id/address" />
             </LinearLayout>
 
             <LinearLayout
@@ -83,6 +88,7 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.7"
+                    android:singleLine="true"
                     android:background="@drawable/edittext_border" />
             </LinearLayout>
 
@@ -102,7 +108,9 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.7"
-                    android:background="@drawable/edittext_border" />
+                    android:singleLine="true"
+                    android:background="@drawable/edittext_border"
+                    android:id="@+id/contact" />
             </LinearLayout>
 
             <LinearLayout
@@ -121,7 +129,9 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.7"
-                    android:background="@drawable/edittext_border" />
+                    android:singleLine="true"
+                    android:background="@drawable/edittext_border"
+                    android:id="@+id/phone" />
             </LinearLayout>
 
             <LinearLayout
@@ -141,25 +151,65 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.48"
-                    android:background="@drawable/edittext_border" />
+                    android:singleLine="true"
+                    android:background="@drawable/edittext_border"
+                    android:id="@+id/quality_task" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/main_icon_drop_down" />
+                    android:src="@drawable/main_icon_drop_down"
+                    android:id="@+id/iv_qt" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="现场图片" />
+                    android:layout_weight="0.15"
+                    android:text="验收部位" />
 
-                <com.zhuancheng.sanhedefence.presentation.weiget.MyGridView
-                    android:id="@+id/site_gv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="4" />
+                <android.support.v7.widget.AppCompatEditText
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.48"
+                    android:singleLine="true"
+                    android:background="@drawable/edittext_border"
+                    android:id="@+id/yanshoubuwei" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/main_icon_drop_down"
+                    android:onClick="taskList"
+                    android:id="@+id/iv_ys" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/photo_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="15dp"-->
+                    <!--android:text="现场图片" />-->
+
+                <!--<com.zhuancheng.sanhedefence.presentation.weiget.MyGridView-->
+                    <!--android:id="@+id/site_gv"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:numColumns="4" />-->
+
+            </LinearLayout>
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatButton

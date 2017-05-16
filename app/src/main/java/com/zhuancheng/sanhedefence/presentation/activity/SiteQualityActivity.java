@@ -8,19 +8,29 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yanzhenjie.album.Album;
 import com.zhuancheng.sanhedefence.R;
+import com.zhuancheng.sanhedefence.domain.http.api.QualityDetailClient;
+import com.zhuancheng.sanhedefence.domain.http.response.QualityTaskDetailResponse;
 import com.zhuancheng.sanhedefence.presentation.adapter.GridViewAdapter;
 import com.zhuancheng.sanhedefence.presentation.weiget.ImageShow;
+import com.zhuancheng.sanhedefence.presentation.weiget.MyGridView;
 import com.zhuancheng.sanhedefence.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SiteQualityActivity extends BaseActivity implements AdapterView.OnItemClickListener{
@@ -30,25 +40,40 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
     private static final int ACTIVITY_REQUEST_PREVIEW_PHOTO = 102;
     private static final String TAG = "SiteQualityActivity";
     
-    private GridView mSiteGv;
+//    private GridView mSiteGv;
     private GridViewAdapter mGridViewAdapter;
     private ArrayList<String> imgList; // 存放图片路径
     private ArrayList<String> imageDescription;
+
+    private LinearLayout photo_list;
+    private AppCompatEditText pjo_name,address,contact,phone,quality_task,yanshoubuwei;
+    private QualityTaskDetailResponse taskDetailResponse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_site_quality);
         super.onCreate(savedInstanceState);
         setActionTitle("现场质监");
         initView();
+        String taskId = getIntent().getStringExtra("taskId");
+        getTaskDetails(taskId);
     }
 
     private void initView() {
+        photo_list = (LinearLayout) findViewById(R.id.photo_list);
+        pjo_name = (AppCompatEditText) findViewById(R.id.pjo_name);
+        address = (AppCompatEditText) findViewById(R.id.address);
+        contact = (AppCompatEditText) findViewById(R.id.contact);
+        phone = (AppCompatEditText) findViewById(R.id.phone);
+        quality_task = (AppCompatEditText) findViewById(R.id.quality_task);
+        yanshoubuwei = (AppCompatEditText) findViewById(R.id.yanshoubuwei);
+
         imgList = new ArrayList<>();
         imageDescription = new ArrayList<>();
-        mSiteGv = (GridView) findViewById(R.id.site_gv);
+//        mSiteGv = (GridView) findViewById(R.id.site_gv);
         mGridViewAdapter = new GridViewAdapter(imgList,imageDescription);
-        mSiteGv.setAdapter(mGridViewAdapter);
-        mSiteGv.setOnItemClickListener(this);
+//        mSiteGv.setAdapter(mGridViewAdapter);
+//        mSiteGv.setOnItemClickListener(this);
     }
 
     public void choose(){
@@ -129,14 +154,8 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
         mGridViewAdapter.notifyDataSetChanged(imgList,imageDescription);
     }
 
-    private void previewImage(int position) {
-//        Album.gallery(this)
-//                .requestCode(ACTIVITY_REQUEST_PREVIEW_PHOTO)
-//                .toolBarColor(ContextCompat.getColor(this, R.color.colorPrimary)) // Toolbar color.
-//                .statusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark)) // StatusBar color.
-//                .navigationBarColor(ActivityCompat.getColor(this, R.color.albumColorPrimaryBlack)) // NavigationBar color.
-//                .checkedList(imgList) // Image list.
-//                .start();
+    private void previewImage(ArrayList<String> imgList) {
+
         ImageShow.gallery(this)
                 .requestCode(ACTIVITY_REQUEST_PREVIEW_PHOTO)
                 .toolBarColor(ContextCompat.getColor(this, R.color.colorPrimary)) // Toolbar color
@@ -152,7 +171,75 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
         if (position == parent.getChildCount() - 1) {
             takePicture();
         } else {
-            previewImage(position);
+//            previewImage(position);
         }
+    }
+
+    private void getTaskDetails(String taskID) {
+        QualityDetailClient qualityDetailClient = new QualityDetailClient();
+        qualityDetailClient.getQualityTaskDetail(taskID).enqueue(new Callback<QualityTaskDetailResponse>() {
+            @Override
+            public void onResponse(Call<QualityTaskDetailResponse> call, Response<QualityTaskDetailResponse> response) {
+                taskDetailResponse = response.body();
+                List<QualityTaskDetailResponse.EprIdListBean> eprIdListBeen = taskDetailResponse.getEprIdList();
+                pjo_name.setText(taskDetailResponse.getTaskName());
+                address.setText(taskDetailResponse.getEngAddress());
+                contact.setText(taskDetailResponse.getContactName());
+                phone.setText(taskDetailResponse.getContactPhone()+"");
+                yanshoubuwei.setText(eprIdListBeen.get(0).getPartName());
+//                quality_detail_tel.setText(detailResponse.getContactPhone());
+
+                for (QualityTaskDetailResponse.EprIdListBean eprIdListBean : eprIdListBeen) {
+                    photo_list.addView(addView(photo_list,eprIdListBean));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<QualityTaskDetailResponse> call, Throwable t) {
+                ToastUtil.showToast("加载失败");
+            }
+        });
+
+    }
+
+    public View addView(ViewGroup parent, final QualityTaskDetailResponse.EprIdListBean eprIdListBean) {
+        View view = LayoutInflater.from(this).inflate(R.layout.photo_add, parent,false);
+        final TextView buwei = (TextView) view.findViewById(R.id.buwei);
+        buwei.setText(eprIdListBean.getPartName());
+        TextView yaoqiu = (TextView) view.findViewById(R.id.yaoqiu);
+        MyGridView photo_gv = (MyGridView) view.findViewById(R.id.photo_gv);
+        final ArrayList<String> imgList = new ArrayList<>();
+        GridViewAdapter gridViewAdapter = new GridViewAdapter(imgList);
+        photo_gv.setAdapter(gridViewAdapter);
+//        photo_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position == parent.getChildCount() - 1) {
+//                    takePicture();
+//                } else {
+//                    previewImage(imgList);
+//                }
+//            }
+//        });
+        yaoqiu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(buwei.getText().toString());
+                Intent intent = new Intent(SiteQualityActivity.this, PhotoRequire.class);
+                intent.putExtra("partName", eprIdListBean.getPartName());
+            }
+        });
+        return view;
+    }
+
+    public void taskList(View view) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("请选择验收部位")
+//                .setSingleChoiceItems()
+                .create();
+
+        alertDialog.show();
+
     }
 }

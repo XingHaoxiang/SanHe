@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eef7fe"
+        >
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/site_quality_supervision_icon_project"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            />
+
+        <TextView
+            android:text="整体验收部位"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/iv_logo"
+            android:layout_marginStart="23dp"
+            android:id="@+id/buwei" />
+
+        <TextView
+            android:id="@+id/yaoqiu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="要求"
+            android:textSize="12sp"
+            android:padding="10dp"
+            android:textColor="@color/engineering_bg"
+            android:background="@drawable/quality_detail_button"
+            android:layout_margin="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <com.zhuancheng.sanhedefence.presentation.weiget.MyGridView
+        android:id="@+id/photo_gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="4"
+        />
+</LinearLayout>
