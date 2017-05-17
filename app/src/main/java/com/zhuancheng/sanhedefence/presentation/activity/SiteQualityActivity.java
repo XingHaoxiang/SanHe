@@ -12,15 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.linearlistview.LinearListView;
 import com.yanzhenjie.album.Album;
 import com.zhuancheng.sanhedefence.R;
 import com.zhuancheng.sanhedefence.domain.http.api.QualityDetailClient;
 import com.zhuancheng.sanhedefence.domain.http.response.QualityTaskDetailResponse;
 import com.zhuancheng.sanhedefence.presentation.adapter.GridViewAdapter;
+import com.zhuancheng.sanhedefence.presentation.adapter.PhotoShowAdapter;
 import com.zhuancheng.sanhedefence.presentation.weiget.ImageShow;
 import com.zhuancheng.sanhedefence.presentation.weiget.MyGridView;
 import com.zhuancheng.sanhedefence.utils.ToastUtil;
@@ -44,8 +45,8 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
     private GridViewAdapter mGridViewAdapter;
     private ArrayList<String> imgList; // 存放图片路径
     private ArrayList<String> imageDescription;
-
-    private LinearLayout photo_list;
+    private PhotoShowAdapter photoShowAdapter;
+    private LinearListView vertical_list;
     private AppCompatEditText pjo_name,address,contact,phone,quality_task,yanshoubuwei;
     private QualityTaskDetailResponse taskDetailResponse;
 
@@ -60,7 +61,7 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
     }
 
     private void initView() {
-        photo_list = (LinearLayout) findViewById(R.id.photo_list);
+        vertical_list = (LinearListView) findViewById(R.id.vertical_list);
         pjo_name = (AppCompatEditText) findViewById(R.id.pjo_name);
         address = (AppCompatEditText) findViewById(R.id.address);
         contact = (AppCompatEditText) findViewById(R.id.contact);
@@ -187,12 +188,8 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
                 contact.setText(taskDetailResponse.getContactName());
                 phone.setText(taskDetailResponse.getContactPhone()+"");
                 yanshoubuwei.setText(eprIdListBeen.get(0).getPartName());
-//                quality_detail_tel.setText(detailResponse.getContactPhone());
-
-                for (QualityTaskDetailResponse.EprIdListBean eprIdListBean : eprIdListBeen) {
-                    photo_list.addView(addView(photo_list,eprIdListBean));
-                }
-
+                photoShowAdapter = new PhotoShowAdapter(eprIdListBeen,SiteQualityActivity.this);
+                vertical_list.setAdapter(photoShowAdapter);
             }
 
             @Override

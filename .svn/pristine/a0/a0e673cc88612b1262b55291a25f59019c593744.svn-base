@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_quality_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zhuancheng.sanhedefence.presentation.activity.QualityDetail">
+
+    <include layout="@layout/action_bar" android:id="@+id/quality_detail_action_bar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_below="@id/quality_detail_action_bar"
+        >
+
+        <TextView
+            android:text="君晓家园人防工程"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView"
+            android:layout_toEndOf="@+id/textView"
+            android:id="@+id/quality_detail_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView3"
+            android:layout_toEndOf="@+id/textView"
+            android:layout_marginStart="12dp"
+            android:id="@+id/quality_detail_loc"
+            android:text="和平西路与鼎盛西大街南行300米路东" />
+
+        <TextView
+            android:text="1589034703"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView9"
+            android:layout_alignStart="@+id/quality_detail_contact"
+            android:id="@+id/quality_detail_tel" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:text="现场质检"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/engineering_bg"
+            android:background="@drawable/quality_detail_button"
+            android:id="@+id/quality_detail_btn" />
+
+        <TextView
+            android:text="12312312"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quality_detail_quality_number"
+            android:layout_alignBaseline="@+id/textView5"
+            android:layout_alignBottom="@+id/textView5"
+            android:layout_toEndOf="@+id/textView5" />
+
+        <TextView
+            android:text="张晓明"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quality_detail_contact"
+            android:layout_above="@+id/textView9"
+            android:layout_toEndOf="@+id/textView5" />
+
+        <TextView
+            android:text="2017年5月8日16:19:25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView17"
+            android:layout_alignStart="@+id/quality_detail_tel"
+            android:id="@+id/quality_detail_time" />
+
+        <TextView
+            android:text="工程名称："
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="工程地址："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/textView3"
+            android:layout_below="@+id/quality_detail_name"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="联系人："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textView7"
+            android:layout_below="@+id/textView5"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="联系方式："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textView9"
+            android:layout_below="@+id/textView7"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="抽检要求："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:id="@+id/textView11"
+            android:layout_below="@+id/textView9"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="发生的法撒旦法撒旦法撒旦法撒旦发生的飞洒地方犬瘟热确认为儿童"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/quality_detail_demand"
+            android:layout_below="@+id/textView11"
+            android:layout_alignParentStart="true" />
+
+
+        <TextView
+            android:text="地理位置："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textView18"
+            android:layout_below="@+id/textView17"
+            android:layout_alignParentStart="true" />
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:layout_below="@id/textView18"
+            android:clickable="true" />
+
+        <TextView
+            android:text="抽检时间："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textView17"
+            android:layout_below="@+id/quality_detail_demand"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="监督登记号："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textView5"
+            android:layout_below="@+id/quality_detail_loc"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_engineer_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_engineer_id"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:text="序号"
+        android:textColor="@color/quality_item_title" />
+
+    <TextView
+        android:id="@+id/item_engineer_prjo_name"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.5"
+        android:gravity="center_vertical"
+        android:text="工程名称"
+        android:textColor="@color/quality_item_title" />
+
+    <TextView
+        android:id="@+id/item_engineer_state"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.3"
+        android:gravity="center"
+        android:text="状态"
+        android:textColor="@color/quality_item_title" />
+
+    <TextView
+        android:id="@+id/item_engineer_operate"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:text="资料"
+        android:textColor="@color/colorAccent" />
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!--主色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--主色深一些的颜色 一般用于状态栏 和下方导航栏-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--代表各个控件的基调颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--改变所有文本的颜色-->
+        <!--<item name="android:textColor">@color/myTextColor</item>-->
+        <!--设置下方虚拟导航栏 5.x新特性-->
+        <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
+    </style>
+
+    <style name="MyMenuTextStyle">
+        <item name="android:textSize">22sp</item>
+    </style>
+</resources>

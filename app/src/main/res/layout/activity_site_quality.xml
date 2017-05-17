@@ -197,17 +197,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="15dp"-->
-                    <!--android:text="现场图片" />-->
-
-                <!--<com.zhuancheng.sanhedefence.presentation.weiget.MyGridView-->
-                    <!--android:id="@+id/site_gv"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:numColumns="4" />-->
+                <com.linearlistview.LinearListView
+                    android:id="@+id/vertical_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#0f0"
+                    android:dividerPadding="8dp"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    app:dividerThickness="16dp" />
 
             </LinearLayout>
         </LinearLayout>
