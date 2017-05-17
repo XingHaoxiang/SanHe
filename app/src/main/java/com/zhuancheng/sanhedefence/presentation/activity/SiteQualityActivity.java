@@ -60,6 +60,7 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
         getTaskDetails(taskId);
     }
 
+
     private void initView() {
         vertical_list = (LinearListView) findViewById(R.id.vertical_list);
         pjo_name = (AppCompatEditText) findViewById(R.id.pjo_name);

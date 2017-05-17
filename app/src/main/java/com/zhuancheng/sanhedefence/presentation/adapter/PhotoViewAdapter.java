@@ -36,8 +36,8 @@ public class PhotoViewAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-        }
 
+        }
         if (position < list.size()) {
             Glide.with(parent.getContext()).load(list.get(position)).into(viewHolder.iv);
         } else {

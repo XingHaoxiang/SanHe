@@ -23,6 +23,7 @@ import java.util.List;
 
 public class PhotoShowAdapter extends BaseAdapter {
 
+
     private PhotoViewAdapter mAdapter;
     private Context mContext;
     private List<QualityTaskDetailResponse.EprIdListBean> list;

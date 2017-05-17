@@ -22,5 +22,6 @@ public class PhotoRequire extends BaseActivity {
 
         String partName = getIntent().getStringExtra("partName");
         photoContent.setText(partName);
+        
     }
 }
