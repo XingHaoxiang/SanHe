@@ -5,4 +5,9 @@ package com.zhuancheng.sanhedefence.domain.constants;
  */
 public class Const {
     public static String userId = "userId";
+    public static String username = "username";
+    public static String pwd = "pwd";
+    public static final String DBPATH = "data/data/com.zhuancheng.sanhedefence/";
+    public static final String DBNAME = "sanhedb.db";
+
 }

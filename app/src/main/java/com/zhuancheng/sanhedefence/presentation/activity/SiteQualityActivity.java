@@ -8,22 +8,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.linearlistview.LinearListView;
 import com.yanzhenjie.album.Album;
 import com.zhuancheng.sanhedefence.R;
+import com.zhuancheng.sanhedefence.domain.http.api.GetEngPhotoDetailsClient;
 import com.zhuancheng.sanhedefence.domain.http.api.QualityDetailClient;
+import com.zhuancheng.sanhedefence.domain.http.response.PhotoDetailsAndList;
 import com.zhuancheng.sanhedefence.domain.http.response.QualityTaskDetailResponse;
-import com.zhuancheng.sanhedefence.presentation.adapter.GridViewAdapter;
 import com.zhuancheng.sanhedefence.presentation.adapter.PhotoShowAdapter;
 import com.zhuancheng.sanhedefence.presentation.weiget.ImageShow;
-import com.zhuancheng.sanhedefence.presentation.weiget.MyGridView;
 import com.zhuancheng.sanhedefence.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -34,21 +30,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SiteQualityActivity extends BaseActivity implements AdapterView.OnItemClickListener{
+public class SiteQualityActivity extends BaseActivity{
 
     private static final int ACTIVITY_REQUEST_SELECT_PHOTO = 100;
     private static final int ACTIVITY_REQUEST_TAKE_PICTURE = 101;
     private static final int ACTIVITY_REQUEST_PREVIEW_PHOTO = 102;
     private static final String TAG = "SiteQualityActivity";
-    
 //    private GridView mSiteGv;
-    private GridViewAdapter mGridViewAdapter;
+//    private GridViewAdapter mGridViewAdapter;
     private ArrayList<String> imgList; // 存放图片路径
     private ArrayList<String> imageDescription;
+
+    /**下面变量基本再用*/
+    private String[] titleString;
     private PhotoShowAdapter photoShowAdapter;
     private LinearListView vertical_list;
     private AppCompatEditText pjo_name,address,contact,phone,quality_task,yanshoubuwei;
     private QualityTaskDetailResponse taskDetailResponse;
+    private String taskId;
+    private AlertDialog alertDialog;
+    private List<QualityTaskDetailResponse.EprIdListBean> eprIdListBeen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setActionTitle("现场质监");
         initView();
-        String taskId = getIntent().getStringExtra("taskId");
+        taskId = getIntent().getStringExtra("taskId");
         getTaskDetails(taskId);
     }
 
@@ -73,7 +74,7 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
         imgList = new ArrayList<>();
         imageDescription = new ArrayList<>();
 //        mSiteGv = (GridView) findViewById(R.id.site_gv);
-        mGridViewAdapter = new GridViewAdapter(imgList,imageDescription);
+//        mGridViewAdapter = new GridViewAdapter(imgList,imageDescription);
 //        mSiteGv.setAdapter(mGridViewAdapter);
 //        mSiteGv.setOnItemClickListener(this);
     }
@@ -86,13 +87,12 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
                 .selectCount(20).columnCount(4).camera(true).checkedList(imgList).start();
     }
 
-    private void takePicture() {
-        Album.camera(this)
-                .requestCode(ACTIVITY_REQUEST_TAKE_PICTURE)
-                .start();
-    }
-
-
+    /**
+     * 这段代码暂时保留
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -111,9 +111,7 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
             case ACTIVITY_REQUEST_TAKE_PICTURE: {
                 if (resultCode == RESULT_OK) { // Successfully.
                     final List<String> imageList = Album.parseResult(data); // Parse path.
-//                    for (String s : imageList) {
-//                        Log.d(TAG, "onActivityResult: " + s);
-//                    }
+
                     final AppCompatEditText inputServer = new AppCompatEditText(this);
                     inputServer.setFocusable(true);
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -153,7 +151,7 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
     }
 
     private void refreshImage() {
-        mGridViewAdapter.notifyDataSetChanged(imgList,imageDescription);
+//        mGridViewAdapter.notifyDataSetChanged(imgList,imageDescription);
     }
 
     private void previewImage(ArrayList<String> imgList) {
@@ -168,29 +166,27 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
                 .start();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (position == parent.getChildCount() - 1) {
-            takePicture();
-        } else {
-//            previewImage(position);
-        }
-    }
 
-    private void getTaskDetails(String taskID) {
+
+    private void getTaskDetails(final String taskID) {
         QualityDetailClient qualityDetailClient = new QualityDetailClient();
         qualityDetailClient.getQualityTaskDetail(taskID).enqueue(new Callback<QualityTaskDetailResponse>() {
             @Override
             public void onResponse(Call<QualityTaskDetailResponse> call, Response<QualityTaskDetailResponse> response) {
                 taskDetailResponse = response.body();
-                List<QualityTaskDetailResponse.EprIdListBean> eprIdListBeen = taskDetailResponse.getEprIdList();
+                eprIdListBeen = taskDetailResponse.getEprIdList();
                 pjo_name.setText(taskDetailResponse.getTaskName());
                 address.setText(taskDetailResponse.getEngAddress());
                 contact.setText(taskDetailResponse.getContactName());
                 phone.setText(taskDetailResponse.getContactPhone()+"");
                 yanshoubuwei.setText(eprIdListBeen.get(0).getPartName());
-                photoShowAdapter = new PhotoShowAdapter(eprIdListBeen,SiteQualityActivity.this);
-                vertical_list.setAdapter(photoShowAdapter);
+                titleString = new String[eprIdListBeen.size()];
+                for (int i = 0; i < eprIdListBeen.size(); i++) {
+                    titleString[i] = eprIdListBeen.get(i).getPartName();
+                }
+
+                // 加载数据完毕后默认添加第一项
+                getPhotoList(taskID,eprIdListBeen.get(0).getParentId()+"",eprIdListBeen.get(0).getId()+"");
             }
 
             @Override
@@ -201,43 +197,46 @@ public class SiteQualityActivity extends BaseActivity implements AdapterView.OnI
 
     }
 
-    public View addView(ViewGroup parent, final QualityTaskDetailResponse.EprIdListBean eprIdListBean) {
-        View view = LayoutInflater.from(this).inflate(R.layout.photo_add, parent,false);
-        final TextView buwei = (TextView) view.findViewById(R.id.buwei);
-        buwei.setText(eprIdListBean.getPartName());
-        TextView yaoqiu = (TextView) view.findViewById(R.id.yaoqiu);
-        MyGridView photo_gv = (MyGridView) view.findViewById(R.id.photo_gv);
-        final ArrayList<String> imgList = new ArrayList<>();
-        GridViewAdapter gridViewAdapter = new GridViewAdapter(imgList);
-        photo_gv.setAdapter(gridViewAdapter);
-//        photo_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == parent.getChildCount() - 1) {
-//                    takePicture();
-//                } else {
-//                    previewImage(imgList);
-//                }
-//            }
-//        });
-        yaoqiu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showToast(buwei.getText().toString());
-                Intent intent = new Intent(SiteQualityActivity.this, PhotoRequire.class);
-                intent.putExtra("partName", eprIdListBean.getPartName());
-            }
-        });
-        return view;
-    }
-
+    int clickItem = 0;
     public void taskList(View view) {
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+        alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择验收部位")
-//                .setSingleChoiceItems()
+                .setSingleChoiceItems(titleString, clickItem, onClickListener)
                 .create();
 
         alertDialog.show();
 
+
+    }
+
+    DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            yanshoubuwei.setText(titleString[which]);
+            clickItem = which;
+            QualityTaskDetailResponse.EprIdListBean eprIdListBean = eprIdListBeen.get(which);
+            getPhotoList(taskId, eprIdListBean.getId()+"", eprIdListBean.getParentId()+"");
+            alertDialog.dismiss();
+        }
+    };
+
+
+
+    private void getPhotoList(String taskId,String psdId,String eprId) {
+        GetEngPhotoDetailsClient client = new GetEngPhotoDetailsClient();
+        client.getEngPhotoDetails(taskId, psdId, eprId).enqueue(new Callback<PhotoDetailsAndList>() {
+            @Override
+            public void onResponse(Call<PhotoDetailsAndList> call, Response<PhotoDetailsAndList> response) {
+                List<PhotoDetailsAndList.ResultBean> result = response.body().getResult();
+                photoShowAdapter = new PhotoShowAdapter(result,SiteQualityActivity.this);
+                vertical_list.setAdapter(photoShowAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<PhotoDetailsAndList> call, Throwable t) {
+                ToastUtil.showToast("网络出了故障，请选择部位重试");
+            }
+        });
     }
 }

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.linearlistview.LinearListView;
 import com.zhuancheng.sanhedefence.R;
-import com.zhuancheng.sanhedefence.domain.http.response.QualityTaskDetailResponse;
+import com.zhuancheng.sanhedefence.domain.http.response.PhotoDetailsAndList;
 import com.zhuancheng.sanhedefence.presentation.activity.EditPhotoActivity;
 import com.zhuancheng.sanhedefence.presentation.activity.PhotoRequire;
 import com.zhuancheng.sanhedefence.utils.ToastUtil;
@@ -26,9 +26,9 @@ public class PhotoShowAdapter extends BaseAdapter {
 
     private PhotoViewAdapter mAdapter;
     private Context mContext;
-    private List<QualityTaskDetailResponse.EprIdListBean> list;
+    private List<PhotoDetailsAndList.ResultBean> list;
 
-    public PhotoShowAdapter(List<QualityTaskDetailResponse.EprIdListBean> list,Context mContext) {
+    public PhotoShowAdapter(List<PhotoDetailsAndList.ResultBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mAdapter = new PhotoViewAdapter();
@@ -50,7 +50,7 @@ public class PhotoShowAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_horlist, parent, false);
         }
@@ -61,20 +61,21 @@ public class PhotoShowAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PhotoRequire.class);
+                intent.putExtra("partName",list.get(position).getPartName());
                 mContext.startActivity(intent);
             }
         });
         LinearListView listView = (LinearListView)convertView.findViewById(R.id.horizontal_list_in);
         listView.setAdapter(mAdapter);
+        mAdapter.notifyChanged(list.get(position).getEngPhotoList());
         listView.setOnItemClickListener(new LinearListView.OnItemClickListener() {
             @Override
             public void onItemClick(LinearListView parent, View view, int position, long id) {
                 if (position == parent.getChildCount() - 1) {
-//                takePicture();
-                    ToastUtil.showToast("拍照");
+                    ToastUtil.showToast("拍照" + position);
                 } else {
                     Intent intent = new Intent(mContext, EditPhotoActivity.class);
-                    ToastUtil.showToast("" + list.get(position).getParentName());
+                    ToastUtil.showToast("" + list.get(position).getPartName());
                     mContext.startActivity(intent);
                 }
             }

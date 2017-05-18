@@ -7,11 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.zhuancheng.sanhedefence.R;
@@ -26,8 +28,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
     private AppCompatButton mLoginBtn;
+    private AppCompatCheckBox remember;
     private ImageView mShowPwd;
     private AppCompatEditText mLoginUserName,mLoginPassword;
     private boolean isShowPwd = true;
@@ -51,13 +54,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
+        remember = (AppCompatCheckBox) findViewById(R.id.remember);
         mLoginBtn = (AppCompatButton) findViewById(R.id.login_btn);
         mLoginBtn.setOnClickListener(this);
         mShowPwd = (ImageView) findViewById(R.id.login_show_pwd);
         mShowPwd.setOnClickListener(this);
         mLoginUserName = (AppCompatEditText) findViewById(R.id.login_username);
         mLoginPassword = (AppCompatEditText) findViewById(R.id.login_password);
-
+        String shareUserName = ShareData.getShareStringData(Const.username, "");
+        if (ShareData.contains(Const.pwd)) {
+            String sharePwd = ShareData.getShareStringData(Const.pwd, "");
+            if (!TextUtils.isEmpty(sharePwd)) {
+                mLoginPassword.setText(sharePwd);
+            }
+        }
+        if (!TextUtils.isEmpty(shareUserName)) {
+            mLoginUserName.setText(shareUserName);
+        }
     }
 
     @Override
@@ -94,7 +107,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LoginResponse loginResponse = response.body();
                 if (response.isSuccessful() && loginResponse.getCode() == 0) {
                     ToastUtil.showToast(loginResponse.getMessage());
+                    ShareData.setShareStringData(Const.username,mLoginUserName.getText().toString());
                     ShareData.setShareIntData(Const.userId,loginResponse.getResult().getUserId());
+                    if (remember.isChecked()) {
+                        ShareData.setShareStringData(Const.pwd, mLoginPassword.getText().toString());
+                    } else {
+                        ShareData.remove(Const.pwd);
+                    }
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -108,5 +127,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ToastUtil.showToast("登录失败，请重新登录");
             }
         });
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (!isChecked) {
+            ShareData.remove(Const.pwd);
+        }
     }
 }

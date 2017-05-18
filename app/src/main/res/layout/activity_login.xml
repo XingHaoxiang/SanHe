@@ -127,5 +127,6 @@
         android:textColor="@color/colorAccent"
         android:layout_below="@+id/login_btn"
         android:layout_alignEnd="@+id/login_btn"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:id="@+id/remember" />
 </RelativeLayout>

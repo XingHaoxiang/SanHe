@@ -201,7 +201,6 @@
                     android:id="@+id/vertical_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="#0f0"
                     android:dividerPadding="8dp"
                     android:orientation="vertical"
                     android:showDividers="middle"

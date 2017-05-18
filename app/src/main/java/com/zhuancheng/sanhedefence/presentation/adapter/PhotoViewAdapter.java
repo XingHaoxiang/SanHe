@@ -8,11 +8,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.zhuancheng.sanhedefence.R;
+import com.zhuancheng.sanhedefence.domain.http.response.PhotoDetailsAndList;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.zhuancheng.sanhedefence.R.id.item;
 
 /**
  * Created by cong on 2017/5/17.
@@ -20,10 +19,10 @@ import static com.zhuancheng.sanhedefence.R.id.item;
 
 public class PhotoViewAdapter extends BaseAdapter {
 
-    List<String> list;
+    private List<PhotoDetailsAndList.ResultBean.EngPhotoListBean> engPhotoList;
 
     public PhotoViewAdapter() {
-        list = new ArrayList<>();
+        engPhotoList = new ArrayList<>();
     }
 
     @Override
@@ -38,8 +37,8 @@ public class PhotoViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
 
         }
-        if (position < list.size()) {
-            Glide.with(parent.getContext()).load(list.get(position)).into(viewHolder.iv);
+        if (position < engPhotoList.size()) {
+//            Glide.with(parent.getContext()).load(engPhotoList.get(position).getThumbnailUrl()).into(viewHolder.iv);
         } else {
             Glide.with(parent.getContext()).load(R.drawable.main_icon_add_picture).into(viewHolder.iv);
             viewHolder.tv.setVisibility(View.INVISIBLE);
@@ -60,7 +59,7 @@ public class PhotoViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size() + 1;
+        return engPhotoList.size() + 1;
     }
 
     class ViewHolder {
@@ -68,8 +67,13 @@ public class PhotoViewAdapter extends BaseAdapter {
         private ImageView tv;
 
         public ViewHolder(View v) {
-            iv = (ImageView) v.findViewById(item);
+            iv = (ImageView) v.findViewById(R.id.item);
             tv = (ImageView) v.findViewById(R.id.item_tv);
         }
+    }
+
+    public void notifyChanged(List<PhotoDetailsAndList.ResultBean.EngPhotoListBean> engPhotoList) {
+        this.engPhotoList = engPhotoList;
+        notifyDataSetChanged();
     }
 }
